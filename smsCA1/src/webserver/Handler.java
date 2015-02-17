@@ -30,7 +30,7 @@ public class Handler implements HttpHandler {
     public void handle(HttpExchange he) throws IOException {
 
         //Need hashmap for contentTypes!
-        ContentTypes contentTypesClass = new ContentTypes();
+        ContentTypes contentTypesClass = ContentTypes.getInstance();
 
         Headers h = he.getResponseHeaders();
         String requestedPage = he.getRequestURI().toString();
@@ -59,7 +59,11 @@ public class Handler implements HttpHandler {
         }
 
         //Set contentType HERE --------
-        h.add("Contents-Type", contentType);
+        //We dont add a content type if the file format is unknown
+        //This is according to HTML 1.0
+        if (contentType != null) {
+            h.add("Contents-Type", contentType);
+        }
 
         //Sending the requested file back to the user
         System.out.println("Trying: " + contentFolder + requestedPage);

@@ -6,52 +6,61 @@
 package webserver;
 
 import java.util.HashMap;
+import java.util.Properties;
 
 /**
  *
  * @author Stefan Duro <stefduro@gmail.com>
  */
+/**
+ * Uses singleton pattern so we prevent initializing the class every time
+ * we start a new handler. This is preferred because we plan to make the
+ * web server using threads for each Connection made to it.
+ * 
+ * This way of making a singleton class should be threadsafe (according to wiki)
+ */
 public class ContentTypes {
 
-    private HashMap<String, String> contentTypeMap;
+    private static HashMap<String, String> contentTypeMap;
+    private static Properties properties;
 
-    public ContentTypes() {
+    private ContentTypes() {
 
-        this.contentTypeMap = new HashMap();
-        // Future load them from file
-        easyAdd();
+        //Setting the properties file
+        properties = webserver.Utils.Utils.initProperties("properties/webServerContentTypes.properties");
+
+        contentTypeMap = new HashMap();
+
+        //Adding all contentTypes to hashmap from the properties file
+        System.out.println("Loading contentTypes");
+        for (final String cType : properties.stringPropertyNames()) {
+            contentTypeMap.put(cType, properties.getProperty(cType));
+            System.out.println(cType + " " + properties.getProperty(cType));
+        }
+    }
+    
+    //Singleton holder class
+    private static class SingletonHolder {
+
+        private static final ContentTypes INSTANCE = new ContentTypes();
+    }
+    
+    //Method to return the instance of this class
+    public static ContentTypes getInstance() {
+        return SingletonHolder.INSTANCE;
     }
 
-    private void loadDefaultContentTypes() {
-
-        //Load content types from file
-    }
-
-    private void easyAdd() {
-        //Adding maps to known file formats
-        contentTypeMap.put("jpg", "imgage/jpeg");
-        contentTypeMap.put("html", "text/html");
-        contentTypeMap.put("jar", "application/zip");
-        contentTypeMap.put("pdf", "application/pdf");
-        contentTypeMap.put("css", "text/css");
-    }
-
+    //Return the content type to the file requested
     public String getContentType(String contentType) {
 
-        
+        //Fix logic and names in this method
         //Try block to prevent Array out of bounds
         try {
-            contentType = "error.html".split("\\.")[1];
+            contentType = contentType.split("\\.")[1];
         } catch (Exception e) {
         }
 
         contentType = contentTypeMap.get(contentType);
-
-        //If null is returned from the map the contentType dont exist
-        if (contentType == null) {
-            //Setting default text/plain if format is unknown
-            contentType = "text/plain";
-        }
 
         return contentType;
 
