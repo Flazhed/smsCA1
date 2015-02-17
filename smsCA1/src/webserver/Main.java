@@ -11,6 +11,10 @@ package webserver;
  */
 public class Main {
     
+    /**
+     *
+     * @param args Arguments for the server.
+     */
     public static void main(String[] args) {
         
         int port = 1337;

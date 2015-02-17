@@ -15,18 +15,26 @@ import java.util.Properties;
  * @author Stefan Duro <stefduro@gmail.com>
  */
 public class Utils {
-    
-    public static Properties initProperties(String propertyFile) {
-    Properties properties = new Properties();
-    try (InputStream is = new FileInputStream(propertyFile)) {
-      properties.load(is);
-    } catch (IOException ex) {
-      System.out.println(String.format("Could not locate the %1$s file.", propertyFile));
-      return null;
+
+    /**
+     *
+     * @param propertyFile Filename of the properties file.
+     * @return Properties object, that contains the properties in the requested file. 
+     */
+    public static Properties contentTypesProperties(String propertyFile) {
+
+        Properties properties = new Properties();
+
+        try (InputStream is = new FileInputStream(propertyFile)) {
+            properties.load(is);
+        } catch (IOException ex) {
+
+            System.out.println(String.format("Could not locate the %1$s file.", propertyFile));
+
+            return null;
+        }
+        return properties;
     }
-    return properties;
-  }
-    
+
     //Make logger here too
-    
 }

@@ -27,7 +27,7 @@ public class ContentTypes {
     private ContentTypes() {
 
         //Setting the properties file
-        properties = webserver.Utils.Utils.initProperties("properties/webServerContentTypes.properties");
+        properties = webserver.Utils.Utils.contentTypesProperties("properties/webServerContentTypes.properties");
 
         contentTypeMap = new HashMap();
 
@@ -45,13 +45,26 @@ public class ContentTypes {
         private static final ContentTypes INSTANCE = new ContentTypes();
     }
     
-    //Method to return the instance of this class
-    public static ContentTypes getInstance() {
+    //
+
+    /**
+     *
+     * @return the instance of the Singleton ContentTypes class.
+     */
+        public static ContentTypes getInstance() {
         return SingletonHolder.INSTANCE;
     }
 
-    //Return the content type to the file requested
-    public String getContentType(String contentType) {
+
+    /**
+     *
+     * @param contentType String of a filename with ending! eg. index.html
+     * @return The content Type for a given file determined by the ending of
+     * the file.
+     * 
+     * Return null if the file format is not listed in the hashmap.
+     */
+        public String getContentType(String contentType) {
 
         //Fix logic and names in this method
         //Try block to prevent Array out of bounds

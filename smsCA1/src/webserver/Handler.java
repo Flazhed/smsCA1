@@ -22,10 +22,19 @@ public class Handler implements HttpHandler {
 
     String contentFolder;
 
+    /**
+     *
+     * @param contentPath path of where the web material is located.
+     */
     public Handler(String contentPath) {
         this.contentFolder = contentPath;
     }
 
+    /**
+     *
+     * @param he HttpExchange
+     * @throws IOException
+     */
     @Override
     public void handle(HttpExchange he) throws IOException {
 

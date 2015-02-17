@@ -21,6 +21,11 @@ public class WebServer {
     private final int port;
     private final String contentFolder;
 
+    /**
+     *
+     * @param ip Hostname of where the server should be started.
+     * @param port Port of where the server should listen for incoming connections.  
+     */
     public WebServer(String ip, int port) {
         this.ip = ip;
         this.port = port;
@@ -28,6 +33,13 @@ public class WebServer {
         this.contentFolder = "public/";
     }
 
+    /**
+     *
+     * @param ip Hostname of where the server should be started.
+     * @param port Port of where the server should listen for incoming connections.
+     * @param contentFolder Folder where the webroot is located. ( / is the same
+     * folder as the server jar is located.
+     */
     public WebServer(String ip, int port, String contentFolder) {
         this.ip = ip;
         this.port = port;
