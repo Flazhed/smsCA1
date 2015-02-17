@@ -28,9 +28,10 @@ public class Client extends Thread {
     private PrintWriter output;
     private Scanner input;
     private List<ClientObserver> listeners = new ArrayList();
-    private String userName = JOptionPane.showInputDialog("navn plez"); //HARDCODED CRIME
+    private String userName;
 
-    public void connect(String host, int port) throws UnknownHostException, IOException {
+    public void connect(String userName, String host, int port) throws UnknownHostException, IOException {
+        this.userName = userName;
         //Method for establishing a a connection and creating the socket used for I/O.
         InetAddress serverAddress = InetAddress.getByName(host);
         socket = new Socket(serverAddress, port);
@@ -38,7 +39,7 @@ public class Client extends Thread {
         output = new PrintWriter(socket.getOutputStream(), true);//Autoflush is set to true
 
         //First message to the server is the CONNECT#Username
-        String outputMes = ProtocolStrings.connect + ProtocolStrings.separator + userName;
+        String outputMes = ProtocolStrings.connect + ProtocolStrings.separator + this.userName;
         output.println(outputMes);
         //Then the first expected message is a ONLINE#users with the currently online users
         String inputMsg = input.nextLine();//This is a blocking call, waiting for the verified connection approval from the server
