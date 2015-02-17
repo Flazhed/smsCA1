@@ -43,9 +43,10 @@ public class Server {
 
     private void usersOnline() {
 
-        String online = ProtocolStrings.online;
+        String online = ProtocolStrings.online + ProtocolStrings.separator;
 
         for (String client : clientMap.keySet()) {
+            //Spørg om dette, komma tilsidst. 
             online += client + ",";
         }
 
