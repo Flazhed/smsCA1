@@ -23,7 +23,7 @@ import shared.*;
  * @author Søren
  */
 public class Client extends Thread {
-    
+
     private Socket socket;
     private PrintWriter output;
     private Scanner input;
@@ -52,10 +52,10 @@ public class Client extends Thread {
         //INPUT HANDLECODE FOR INVALD INPUT/CONNECTION
 
     }
-    
+
     @Override
     public void run() {
-        
+
         String msg = input.nextLine();//Blocking call
         while (!msg.equals(ProtocolStrings.STOP)) {
             handleMessage(msg);
@@ -67,22 +67,26 @@ public class Client extends Thread {
             //INSERT LOG HERE
         }
         //INSERT CODE FOR STOP
-        
+
     }
-    
+
+    public String getUserName() {
+        return userName;
+    }
+
     public void send(String mes, String users) {
-        
+
         String outputMsg = ProtocolStrings.send + ProtocolStrings.separator + users + ProtocolStrings.separator + mes;
         output.println(outputMsg);
-        
+
     }
-    
+
     private void handleMessage(String inputMsg) {
-        
+
         String[] inputMsgSplit = inputMsg.split(ProtocolStrings.separator);
         if (inputMsgSplit.length > 0) {//If the array is larger than zero, the client can handle the recieved message
             if (inputMsgSplit[0].equals(ProtocolStrings.online)) {//Code for handling a protocol that dictates an updated userlist
-                String users = inputMsgSplit[1]; 
+                String users = inputMsgSplit[1];
                 notifyListenersOnlineUsers(users);//Notifies observers that the user list is updated
             } else if (inputMsgSplit[0].equals(ProtocolStrings.message)) {//Code for handling a protocol that dictates an incomming message
                 String user = inputMsgSplit[1];
@@ -91,29 +95,29 @@ public class Client extends Thread {
             }
         }
         //INPUT HANDLECODE FOR INVALD INPUT/CONNECTION
-        
-    }    
-    
-    public void registerListener(ClientObserver l) {
-        
-        listeners.add(l);
-        
+
     }
-    
+
+    public void registerListener(ClientObserver l) {
+
+        listeners.add(l);
+
+    }
+
     void notifyListenersOnlineUsers(String users) {
         //Method will notify listeners with an updated list of online users.
         for (ClientObserver listener : listeners) {
             listener.usersUpdated(users);
         }
-        
+
     }
-    
+
     void notifyListenersMessageArrived(String mes) {
         //Method will notify listeners with the newly arrived message.
         for (ClientObserver listener : listeners) {
             listener.messageArrived(mes);
         }
-        
+
     }
-    
+
 }

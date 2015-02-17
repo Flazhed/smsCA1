@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.text.DefaultCaret;
 
 /**
  *
@@ -19,6 +20,7 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
     /**
      * Creates new form MainFrame
      */
+    private DefaultCaret caret;
     private Client client;
     private DefaultListModel listModel;
 
@@ -34,6 +36,14 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
         } catch (IOException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        String username = client.getUserName();
+
+        jLabelUsername.setText("Username: " + username);
+
+        caret = (DefaultCaret) jTextAreaChatWindow.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        this.getRootPane().setDefaultButton(jButtonSend);
+
     }
 
     /**
@@ -52,6 +62,7 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
         jButtonSend = new javax.swing.JButton();
         jTextFieldInput = new javax.swing.JTextField();
         jTextFieldUsers = new javax.swing.JTextField();
+        jLabelUsername = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,6 +74,11 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
+        });
+        jListUsers.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListUsersMouseClicked(evt);
+            }
         });
         jScrollPane2.setViewportView(jListUsers);
 
@@ -79,9 +95,11 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
-                    .addComponent(jTextFieldUsers))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabelUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                        .addComponent(jTextFieldUsers)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -95,8 +113,10 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jLabelUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -111,11 +131,21 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
 
     private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
 
+        String users = (String) jListUsers.getSelectedValue();
+
+        System.out.println("jlist user " + users);
+
         String msg = jTextFieldInput.getText();
 
-        client.send(msg, "*");
+        client.send(msg, users);
 
     }//GEN-LAST:event_jButtonSendActionPerformed
+
+    private void jListUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListUsersMouseClicked
+        String users = (String) jListUsers.getSelectedValue();
+
+        jTextFieldUsers.setText(users);
+    }//GEN-LAST:event_jListUsersMouseClicked
 
     /**
      * @param args the command line arguments
@@ -154,6 +184,7 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonSend;
+    private javax.swing.JLabel jLabelUsername;
     private javax.swing.JList jListUsers;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -165,8 +196,8 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
     @Override
     public void messageArrived(String mes) {
 
-        System.out.println("message" + mes);
-        
+        System.out.println("message: " + mes);
+
         String input = jTextAreaChatWindow.getText() + mes + "\n";
 
         jTextAreaChatWindow.setText(input);
@@ -177,7 +208,7 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
     public void usersUpdated(String users) {
 
         System.out.println("uesrs: " + users);
-        
+
         listModel = new DefaultListModel();
 
         String[] user = users.split(",");
@@ -185,10 +216,10 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
         listModel.add(0, "*");
 
         for (int i = 0; i < user.length; i++) {
-            listModel.add(i+1, user[i]);
+            listModel.add(i + 1, user[i]);
         }
-        
+
         jListUsers.setModel(listModel);
-        
+
     }
 }
