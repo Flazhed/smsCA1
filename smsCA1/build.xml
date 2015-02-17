@@ -10,6 +10,13 @@
 <project name="smsCA1" default="default" basedir=".">
     <description>Builds, tests, and runs the project smsCA1.</description>
     <import file="nbproject/build-impl.xml"/>
+    
+    <target name="-post-jar">
+    <copy todir="${dist.jar.dir}/public">
+       <fileset dir="public" includes="**"/>
+    </copy>        
+    </target>
+    
     <!--
 
     There exist several targets which are by default empty and which can be 
