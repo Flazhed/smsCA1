@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import shared.*;
 
 /**
@@ -27,7 +28,7 @@ public class Client extends Thread {
     private PrintWriter output;
     private Scanner input;
     private List<ClientObserver> listeners = new ArrayList();
-    private String userName = "PER"; //HARDCODED CRIME
+    private String userName = JOptionPane.showInputDialog("navn plez"); //HARDCODED CRIME
 
     public void connect(String host, int port) throws UnknownHostException, IOException {
         //Method for establishing a a connection and creating the socket used for I/O.
@@ -110,7 +111,7 @@ public class Client extends Thread {
     void notifyListenersMessageArrived(String mes) {
         //Method will notify listeners with the newly arrived message.
         for (ClientObserver listener : listeners) {
-            listener.usersUpdated(mes);
+            listener.messageArrived(mes);
         }
         
     }
