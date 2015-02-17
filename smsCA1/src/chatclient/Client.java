@@ -93,7 +93,7 @@ public class Client extends Thread {
         
     }    
     
-    public void registerEchoListener(ClientObserver l) {
+    public void registerListener(ClientObserver l) {
         
         listeners.add(l);
         
