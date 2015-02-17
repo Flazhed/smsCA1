@@ -21,7 +21,7 @@ import shared.ProtocolStrings;
  */
 public class Server {
 
-    private boolean serverRunning;
+    private boolean serverRunning = true;
     private ServerSocket serverSocket;
     private HashMap<String, ClientHandler> clientMap;
 
