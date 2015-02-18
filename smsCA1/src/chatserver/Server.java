@@ -43,7 +43,7 @@ public class Server {
 
     private void usersOnline() {
 
-        String online = ProtocolStrings.online + ProtocolStrings.separator;
+        String online = ProtocolStrings.ONLINE + ProtocolStrings.SEPARATOR;
 
         for (String client : clientMap.keySet()) {
             //Spørg om dette, komma tilsidst. 
@@ -60,9 +60,9 @@ public class Server {
         //splits the user String, to see if there are more than one.
         String[] users = modtager.split(",");
         //MESSAGE#
-        String type = ProtocolStrings.message + ProtocolStrings.separator;
+        String type = ProtocolStrings.MESSAGE + ProtocolStrings.SEPARATOR;
         //user#
-        String from = afsender + ProtocolStrings.separator;
+        String from = afsender + ProtocolStrings.SEPARATOR;
         //MESSAGE#user#msg
         String message = type + from + msg;
 
@@ -113,7 +113,7 @@ public class Server {
                 String incomingUser = input.nextLine();
 
                 //Splits the incoming msg, checks for the first part equals connect.
-                String[] connectUser = incomingUser.split(ProtocolStrings.separator);
+                String[] connectUser = incomingUser.split(ProtocolStrings.SEPARATOR);
 
                 String connectionAllowed = connectUser[0];
 
@@ -126,7 +126,7 @@ public class Server {
                     usersOnline();
                 } else {
                     output = new PrintWriter(socket.getOutputStream());
-                    output.println("Fik ikke " + ProtocolStrings.connect);
+                    output.println("Fik ikke " + ProtocolStrings.CONNECT);
                     socket.close();
                 }
 
