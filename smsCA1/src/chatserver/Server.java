@@ -11,16 +11,20 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.ProtocolStrings;
+import utils.Utils;
+
 /**
  *
  * @author Søren
  */
 public class Server {
 
+    private static final Properties properties = Utils.initProperties("server.properties");
     private boolean serverRunning = true;
     private ServerSocket serverSocket;
     private HashMap<String, ClientHandler> clientMap;
@@ -83,15 +87,15 @@ public class Server {
         }
 
     }
-    
-    public void closeUser(String user){
-        
+
+    public void closeUser(String user) {
+
         ClientHandler client = clientMap.get(user);
-        
+
         String closeMsg = ProtocolStrings.CLOSE + ProtocolStrings.separator;
-        
+
         client.send(closeMsg);
-          
+
     }
 
     public void send(String msg) {
@@ -142,10 +146,13 @@ public class Server {
 
             } catch (IOException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                System.out.println("hi");
+                Utils.closeLogger(Server.class.getName());
             }
 
         }
-
+  
     }
 
     public static void main(String[] args) {
@@ -153,6 +160,10 @@ public class Server {
         //Hardcoded skal laves om.
         String ip = "localhost";
         int port = 8999;
+
+        //setting up Log file
+        String logFile = properties.getProperty("logFile");
+        Utils.setLogFile(logFile, Server.class.getName());
 
         //Starts the server.
         Server server = new Server(ip, port);
