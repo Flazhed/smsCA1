@@ -39,13 +39,13 @@ public class Client extends Thread {
         output = new PrintWriter(socket.getOutputStream(), true);//Autoflush is set to true
 
         //First message to the server is the CONNECT#Username
-        String outputMes = ProtocolStrings.CONNECT + ProtocolStrings.SEPARATOR + this.userName;
+        String outputMes = ProtocolStrings.CONNECT + ProtocolStrings.separator + this.userName;
         output.println(outputMes);
         //Then the first expected message is a ONLINE#users with the currently online users
         String inputMsg = input.nextLine();//This is a blocking call, waiting for the verified connection approval from the server
-        String[] inputMsgSplit = inputMsg.split(ProtocolStrings.SEPARATOR);
+        String[] inputMsgSplit = inputMsg.split(ProtocolStrings.separator);
         if (inputMsgSplit.length > 0) {//If the array is larger than zero, the client can handle the recieved message
-            if (inputMsgSplit[0].equals(ProtocolStrings.ONLINE)) {
+            if (inputMsgSplit[0].equals(ProtocolStrings.online)) {
                 String users = inputMsgSplit[1]; //A string with the online users should be on index 1
                 notifyListenersOnlineUsers(users);//Notifies observers that the user list is updated
             }
@@ -77,16 +77,16 @@ public class Client extends Thread {
 
     public void send(String mes, String users) {
 
-        String outputMsg = ProtocolStrings.SEND + ProtocolStrings.SEPARATOR + users + ProtocolStrings.SEPARATOR + mes;
+        String outputMsg = ProtocolStrings.SEND + ProtocolStrings.separator + users + ProtocolStrings.separator + mes;
         output.println(outputMsg);
 
     }
 
     private void handleMessage(String inputMsg) {
 
-        String[] inputMsgSplit = inputMsg.split(ProtocolStrings.SEPARATOR);
+        String[] inputMsgSplit = inputMsg.split(ProtocolStrings.separator);
         if (inputMsgSplit.length > 0) {//If the array is larger than zero, the client can handle the recieved message
-            if (inputMsgSplit[0].equals(ProtocolStrings.ONLINE)) {//Code for handling a protocol that dictates an updated userlist
+            if (inputMsgSplit[0].equals(ProtocolStrings.online)) {//Code for handling a protocol that dictates an updated userlist
                 String users = inputMsgSplit[1];
                 notifyListenersOnlineUsers(users);//Notifies observers that the user list is updated
             } else if (inputMsgSplit[0].equals(ProtocolStrings.MESSAGE)) {//Code for handling a protocol that dictates an incomming message

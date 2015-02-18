@@ -1,0 +1,1 @@
+java -cp smsCA1.jar chatclient.MainFrame

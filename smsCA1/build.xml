@@ -10,6 +10,11 @@
 <project name="smsCA1" default="default" basedir=".">
     <description>Builds, tests, and runs the project smsCA1.</description>
     <import file="nbproject/build-impl.xml"/>
+   
+    <target name="-post-compile">
+      <copy file="startServer.bat" todir="${dist.dir}"/>
+      <copy file="startClient.bat" todir="${dist.dir}"/> 
+    </target>
     
     <target name="-post-jar">
     <copy todir="${dist.jar.dir}/public">

@@ -50,7 +50,7 @@ public class ClientHandler extends Thread {
             Logger.getLogger(Server.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", message));
             while (!message.equals(ProtocolStrings.STOP)) {
 
-                String[] protocols = message.split(ProtocolStrings.SEPARATOR);
+                String[] protocols = message.split(ProtocolStrings.separator);
 
                 String index = protocols[0];
 
