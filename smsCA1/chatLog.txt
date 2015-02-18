@@ -1,0 +1,2 @@
+feb. 18, 2015 3:22:21 PM chatserver.Server <init>
+INFO: Sever started. Listening on: 8999, bound to: localhost

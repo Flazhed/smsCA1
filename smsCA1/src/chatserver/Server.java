@@ -11,16 +11,20 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.ProtocolStrings;
+import utils.Utils;
+
 /**
  *
  * @author Søren
  */
 public class Server {
 
+    private static final Properties properties = Utils.initProperties("server.properties");
     private boolean serverRunning = true;
     private ServerSocket serverSocket;
     private HashMap<String, ClientHandler> clientMap;
@@ -43,7 +47,7 @@ public class Server {
 
     private void usersOnline() {
 
-        String online = ProtocolStrings.online + ProtocolStrings.separator;
+        String online = ProtocolStrings.ONLINE + ProtocolStrings.SEPERATOR;
 
         for (String client : clientMap.keySet()) {
             //Spørg om dette, komma tilsidst. 
@@ -60,9 +64,9 @@ public class Server {
         //splits the user String, to see if there are more than one.
         String[] users = modtager.split(",");
         //MESSAGE#
-        String type = ProtocolStrings.MESSAGE + ProtocolStrings.separator;
+        String type = ProtocolStrings.MESSAGE + ProtocolStrings.SEPERATOR;
         //user#
-        String from = afsender + ProtocolStrings.separator;
+        String from = afsender + ProtocolStrings.SEPERATOR;
         //MESSAGE#user#msg
         String message = type + from + msg;
 
@@ -83,15 +87,15 @@ public class Server {
         }
 
     }
-    
-    public void closeUser(String user){
-        
+
+    public void closeUser(String user) {
+
         ClientHandler client = clientMap.get(user);
-        
-        String closeMsg = ProtocolStrings.CLOSE + ProtocolStrings.separator;
-        
+
+        String closeMsg = ProtocolStrings.CLOSE + ProtocolStrings.SEPERATOR;
+
         client.send(closeMsg);
-          
+
     }
 
     public void send(String msg) {
@@ -123,7 +127,7 @@ public class Server {
                 String incomingUser = input.nextLine();
 
                 //Splits the incoming msg, checks for the first part equals connect.
-                String[] connectUser = incomingUser.split(ProtocolStrings.separator);
+                String[] connectUser = incomingUser.split(ProtocolStrings.SEPERATOR);
 
                 String connectionAllowed = connectUser[0];
 
@@ -142,10 +146,13 @@ public class Server {
 
             } catch (IOException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                System.out.println("hi");
+                Utils.closeLogger(Server.class.getName());
             }
 
         }
-
+  
     }
 
     public static void main(String[] args) {
@@ -153,6 +160,10 @@ public class Server {
         //Hardcoded skal laves om.
         String ip = "localhost";
         int port = 8999;
+
+        //setting up Log file
+        String logFile = properties.getProperty("logFile");
+        Utils.setLogFile(logFile, Server.class.getName());
 
         //Starts the server.
         Server server = new Server(ip, port);
