@@ -65,6 +65,11 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
         jButtonSend = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jTextAreaChatWindow.setColumns(20);
         jTextAreaChatWindow.setRows(5);
@@ -303,6 +308,10 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
 
 
     }//GEN-LAST:event_jButtonSendActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments
