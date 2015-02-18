@@ -21,21 +21,21 @@ import java.util.Properties;
  */
 public class ContentTypes {
 
-    private static HashMap<String, String> contentTypeMap;
-    private static Properties properties;
+    private static HashMap<String, String> CONTENTTYPEMAP;
+    private static Properties PROPERTIES;
 
     private ContentTypes() {
 
         //Setting the properties file
-        properties = webserver.Utils.Utils.contentTypesProperties("properties/webServerContentTypes.properties");
+        PROPERTIES = webserver.Utils.Utils.contentTypesProperties("properties/webServerContentTypes.properties");
 
-        contentTypeMap = new HashMap();
+        CONTENTTYPEMAP = new HashMap();
 
         //Adding all contentTypes to hashmap from the properties file
         System.out.println("Loading contentTypes");
-        for (final String cType : properties.stringPropertyNames()) {
-            contentTypeMap.put(cType, properties.getProperty(cType));
-            System.out.println(cType + " " + properties.getProperty(cType));
+        for (final String cType : PROPERTIES.stringPropertyNames()) {
+            CONTENTTYPEMAP.put(cType, PROPERTIES.getProperty(cType));
+            System.out.println(cType + " " + PROPERTIES.getProperty(cType));
         }
     }
     
@@ -73,7 +73,7 @@ public class ContentTypes {
         } catch (Exception e) {
         }
 
-        contentType = contentTypeMap.get(contentType);
+        contentType = CONTENTTYPEMAP.get(contentType);
 
         return contentType;
 
