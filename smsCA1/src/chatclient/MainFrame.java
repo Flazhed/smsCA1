@@ -31,7 +31,9 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
         caret = (DefaultCaret) jTextAreaChatWindow.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         this.getRootPane().setDefaultButton(jButtonSend);
-
+        listModel = new DefaultListModel();
+        jListUsers.setModel(listModel);
+        jButtonDisconnect.setEnabled(false);
     }
 
     /**
@@ -278,10 +280,15 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         jButtonConnect.setEnabled(false);
+        jButtonDisconnect.setEnabled(true);
+        jButtonSend.setEnabled(true);
     }//GEN-LAST:event_jButtonConnectActionPerformed
 
     private void jButtonDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDisconnectActionPerformed
-        client.send(shared.ProtocolStrings.CLOSE + shared.ProtocolStrings.separator, username);
+        client.close();
+        jButtonDisconnect.setEnabled(false);
+        jButtonConnect.setEnabled(true);
+        jButtonSend.setEnabled(false);
     }//GEN-LAST:event_jButtonDisconnectActionPerformed
 
     private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed

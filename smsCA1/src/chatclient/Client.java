@@ -81,6 +81,14 @@ public class Client extends Thread {
         output.println(outputMsg);
 
     }
+    
+    public void close(){
+        
+        String outputMsg = ProtocolStrings.CLOSE + ProtocolStrings.separator;
+        output.println(outputMsg);
+                
+        
+    }
 
     private void handleMessage(String inputMsg) {
 
