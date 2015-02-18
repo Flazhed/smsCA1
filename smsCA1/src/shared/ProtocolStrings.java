@@ -12,10 +12,10 @@ package shared;
 public class ProtocolStrings {
 
     public static final String STOP = "##STOP##";
-    public static final String message = "MESSAGE";
-    public static final String connect = "CONNECT";
-    public static final String send = "SEND";
-    public static final String close = "CLOSE";
-    public static final String online = "ONLINE";
-    public static final String separator = "#";
+    public static final String MESSAGE = "MESSAGE";
+    public static final String CONNECT = "CONNECT";
+    public static final String SEND = "SEND";
+    public static final String CLOSE = "CLOSE";
+    public static final String ONLINE = "ONLINE";
+    public static final String SEPARATOR = "#";
 }
