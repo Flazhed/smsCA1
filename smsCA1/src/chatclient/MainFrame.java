@@ -23,7 +23,7 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
     private DefaultCaret caret;
     private Client client;
     private DefaultListModel listModel;
-
+    private String username;
     public MainFrame() {
         initComponents();
 
@@ -268,7 +268,7 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        String username = jTextFieldUsername.getText();
+        username = jTextFieldUsername.getText();
         String ip = jTextFieldIP.getText();
         int port = Integer.parseInt(jTextFieldPort.getText());
 
@@ -286,7 +286,7 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        client.send(shared.ProtocolStrings.CLOSE + shared.ProtocolStrings.separator, username);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
@@ -373,5 +373,16 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
 
         jListUsers.setModel(listModel);
 
+    }
+
+    @Override
+    public void closedConnection(Boolean close) {
+
+        if(close){
+            listModel = new DefaultListModel();
+            jListUsers.setModel(listModel);
+            //Evt stop tråd
+        }
+        
     }
 }

@@ -13,5 +13,5 @@ public interface ClientObserver {
     
     void messageArrived(String mes);
     void usersUpdated(String users);
-    
+    void closedConnection(Boolean close);
 }

@@ -93,10 +93,17 @@ public class Client extends Thread {
                 String user = inputMsgSplit[1];
                 String message = inputMsgSplit[2];//Notifies observes that a message has arrived from a certain user
                 notifyListenersMessageArrived(user + ": " + message);
+            } else if (inputMsgSplit[0].equals(ProtocolStrings.CLOSE)) {
+                try {
+                    notifyListenersClosedConnection(true);
+                    socket.close();
+                } catch (IOException ex) {
+                    //INSERT LOG HERE
+                }
+                //INSERT CODE FOR STOP
             }
         }
         //INPUT HANDLECODE FOR INVALD INPUT/CONNECTION
-
     }
 
     public void registerListener(ClientObserver l) {
@@ -117,6 +124,14 @@ public class Client extends Thread {
         //Method will notify listeners with the newly arrived message.
         for (ClientObserver listener : listeners) {
             listener.messageArrived(mes);
+        }
+
+    }
+    
+    void notifyListenersClosedConnection(boolean closed) {
+        //Method will notify listeners that the connection should be closed.
+        for (ClientObserver listener : listeners) {
+            listener.closedConnection(closed);
         }
 
     }
