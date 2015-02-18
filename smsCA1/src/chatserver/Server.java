@@ -83,6 +83,16 @@ public class Server {
         }
 
     }
+    
+    public void closeUser(String user){
+        
+        ClientHandler client = clientMap.get(user);
+        
+        String closeMsg = ProtocolStrings.CLOSE + ProtocolStrings.separator;
+        
+        client.send(closeMsg);
+          
+    }
 
     public void send(String msg) {
         for (ClientHandler clientHandler : clientMap.values()) {

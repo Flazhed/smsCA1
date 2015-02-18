@@ -61,6 +61,7 @@ public class ClientHandler extends Thread {
                         server.sendTo(protocols[1], username, protocols[2]);
                         break;
                     case "CLOSE":
+                        server.closeUser(username);
                         server.removeHandler(username);
                         socket.close();
                 }
