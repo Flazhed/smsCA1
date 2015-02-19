@@ -57,7 +57,9 @@ public class WebServer {
         
         //Making / the root directory of the webserver
         server.createContext("/", new Handler(contentFolder));
+        //Making /log a dynamic page that uses LogHandler
         server.createContext("/log", new LogHandler());
+        //Making /online a dynamic page that uses OnlineUsersHandler
         server.createContext("/online", new OnlineUsersHandler());
         server.setExecutor(null);
         server.start();
