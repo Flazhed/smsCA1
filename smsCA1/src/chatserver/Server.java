@@ -7,9 +7,13 @@ package chatserver;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Scanner;
@@ -28,7 +32,7 @@ public class Server {
     private boolean serverRunning = true;
     private ServerSocket serverSocket;
     private HashMap<String, ClientHandler> clientMap;
-
+    private String online = "";
     public Server(String ip, int port) {
 
         clientMap = new HashMap<>();
@@ -47,7 +51,7 @@ public class Server {
 
     private void usersOnline() {
 
-        String online = ProtocolStrings.ONLINE + ProtocolStrings.SEPERATOR;
+        online = ProtocolStrings.ONLINE + ProtocolStrings.SEPERATOR;
 
         for (String client : clientMap.keySet()) {
             online += client + ",";
@@ -112,10 +116,12 @@ public class Server {
 
     private void startServer() {
 
+        UDPSocket udp = new UDPSocket(online);
+        udp.start();
         PrintWriter output;
         Scanner input;
         Socket socket;
-
+        
         while (serverRunning) {
 
             try {
@@ -138,8 +144,6 @@ public class Server {
                     ClientHandler clientHandler = new ClientHandler(username, socket, this);
                     clientMap.put(username, clientHandler);
                     clientHandler.start();
-                    usersOnline();
-                } else if (connectionAllowed.equalsIgnoreCase("whosOnline")) {
                     usersOnline();
                 } else {
                     output = new PrintWriter(socket.getOutputStream());
@@ -168,10 +172,16 @@ public class Server {
         //setting up Log file
         String logFile = properties.getProperty("logFile");
         Utils.setLogFile(logFile, Server.class.getName());
-
+        
         //Starts the server.
         Server server = new Server(ip, port);
         server.startServer();
+        
+        
+        
+        
     }
+
+  
 
 }

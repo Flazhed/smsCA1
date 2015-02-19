@@ -27,7 +27,7 @@ public class OnlineUsersHandler implements HttpHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
-        
+
         String response; //String needed for the printwriter
 
         StringBuilder sb = new StringBuilder();
@@ -38,7 +38,7 @@ public class OnlineUsersHandler implements HttpHandler {
         sb.append("<meta charset='UTF-8'>\n");
         sb.append("</head>\n");
         sb.append("<body>\n");
-        
+
         sb.append("Users online:" + onlineUsers());
 
         sb.append("</body>\n");
@@ -51,17 +51,18 @@ public class OnlineUsersHandler implements HttpHandler {
 
     }
 
-    private int onlineUsers() throws UnknownHostException, IOException {
-        
+    private String onlineUsers() throws UnknownHostException, IOException {
+
         String result = "";
-        
-        byte[] bytesToSend = new byte[(int) "whosonline#".length()];
-        byte[] bytesToRecive = new byte[(int) "whosonline#".length()];
+
+        byte[] bytesToSend = new byte[1024];
+        byte[] bytesToRecive = new byte[1024];
         try {
             DatagramSocket socket = new DatagramSocket();
 
             InetAddress IPAddress = InetAddress.getByName("localhost");
-
+            String sentence = "whoisonline";
+            bytesToSend = sentence.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(bytesToSend, bytesToSend.length, IPAddress, 9999);
 
             socket.send(sendPacket);
@@ -69,14 +70,14 @@ public class OnlineUsersHandler implements HttpHandler {
             DatagramPacket receivePacket = new DatagramPacket(bytesToRecive, bytesToRecive.length);
 
             socket.receive(receivePacket);
-            
-            
+
             result = new String(receivePacket.getData());
         } catch (SocketException ex) {
             Logger.getLogger(OnlineUsersHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return Integer.parseInt(result);
+        //return Integer.parseInt(result);
+        return result;
     }
 
 }

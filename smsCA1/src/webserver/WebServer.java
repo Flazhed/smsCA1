@@ -58,7 +58,7 @@ public class WebServer {
         //Making / the root directory of the webserver
         server.createContext("/", new Handler(contentFolder));
         server.createContext("/log", new LogHandler());
-        server.createContext("/online", new LogHandler());
+        server.createContext("/online", new OnlineUsersHandler());
         server.setExecutor(null);
         server.start();
         
