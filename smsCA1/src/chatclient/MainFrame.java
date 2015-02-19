@@ -6,6 +6,7 @@
 package chatclient;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -210,7 +211,7 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -251,9 +252,18 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jListUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListUsersMouseClicked
-        String users = (String) jListUsers.getSelectedValue();
+        List temp = jListUsers.getSelectedValuesList();
 
-        jTextFieldUsers.setText(users);
+        String users = "";
+
+        for (Object temp1 : temp) {
+            users += (String) temp1 + ",";
+        }
+        
+        String cleanedUsers = users.substring(0, users.lastIndexOf(","));
+
+        jTextFieldUsers.setText(cleanedUsers);
+
     }//GEN-LAST:event_jListUsersMouseClicked
 
     private void jTextFieldIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldIPActionPerformed
@@ -299,11 +309,14 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
     private void jButtonSendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSendActionPerformed
 
         if (!jTextFieldInput.getText().equals("")) {
-            String users = (String) jListUsers.getSelectedValue();
+//            String users = (String) jListUsers.getSelectedValue();
+            String temp = jTextFieldUsers.getText();
 
             String msg = jTextFieldInput.getText();
 
-            client.send(msg, users);
+            System.out.println("temp " + temp);
+
+            client.send(msg, temp);
         }
 
 
