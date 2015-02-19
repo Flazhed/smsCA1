@@ -48,7 +48,6 @@ public class LogHandler implements HttpHandler {
                 sb.append(temp + "\n");
                 sb.append("</td>\n");
                 sb.append("<td>\n");
-                System.out.println("COL1: " + temp);
                 if (scan.hasNext()) {
                     temp = scan.nextLine();
                 }

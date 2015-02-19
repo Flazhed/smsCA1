@@ -52,7 +52,7 @@ public class Server {
         for (String client : clientMap.keySet()) {
             online += client + ",";
         }
-        
+
         String cleanedUsers = online.substring(0, online.lastIndexOf(","));
 
         for (ClientHandler clientHandler : clientMap.values()) {
@@ -139,8 +139,11 @@ public class Server {
                     clientMap.put(username, clientHandler);
                     clientHandler.start();
                     usersOnline();
+                } else if (connectionAllowed.equalsIgnoreCase("whosOnline")) {
+                    usersOnline();
                 } else {
                     output = new PrintWriter(socket.getOutputStream());
+
                     output.println("Fik ikke " + ProtocolStrings.CONNECT);
                     socket.close();
                 }
@@ -153,7 +156,7 @@ public class Server {
             }
 
         }
-  
+
     }
 
     public static void main(String[] args) {
