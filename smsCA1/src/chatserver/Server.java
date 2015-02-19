@@ -50,12 +50,13 @@ public class Server {
         String online = ProtocolStrings.ONLINE + ProtocolStrings.SEPERATOR;
 
         for (String client : clientMap.keySet()) {
-            //Spørg om dette, komma tilsidst. 
             online += client + ",";
         }
+        
+        String cleanedUsers = online.substring(0, online.lastIndexOf(","));
 
         for (ClientHandler clientHandler : clientMap.values()) {
-            clientHandler.send(online);
+            clientHandler.send(cleanedUsers);
         }
     }
 
