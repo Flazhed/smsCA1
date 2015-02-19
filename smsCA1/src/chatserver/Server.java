@@ -32,7 +32,7 @@ public class Server {
     private boolean serverRunning = true;
     private ServerSocket serverSocket;
     private HashMap<String, ClientHandler> clientMap;
-    private String online = "";
+    private UDPSocket udp;
     public Server(String ip, int port) {
 
         clientMap = new HashMap<>();
@@ -51,14 +51,14 @@ public class Server {
 
     private void usersOnline() {
 
-        online = ProtocolStrings.ONLINE + ProtocolStrings.SEPERATOR;
+        String online = ProtocolStrings.ONLINE + ProtocolStrings.SEPERATOR;
 
         for (String client : clientMap.keySet()) {
             online += client + ",";
         }
 
         String cleanedUsers = online.substring(0, online.lastIndexOf(","));
-
+        udp.updateOnline(cleanedUsers);
         for (ClientHandler clientHandler : clientMap.values()) {
             clientHandler.send(cleanedUsers);
         }
@@ -116,7 +116,7 @@ public class Server {
 
     private void startServer() {
 
-        UDPSocket udp = new UDPSocket(online);
+        udp = new UDPSocket();
         udp.start();
         PrintWriter output;
         Scanner input;
