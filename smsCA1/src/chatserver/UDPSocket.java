@@ -22,14 +22,14 @@ public class UDPSocket extends Thread {
     DatagramSocket serverSocket;
     byte[] receiveData = new byte[1024];
     byte[] sendData = new byte[1024];
-    private String online ="";
-    
-    public UDPSocket(String online){
-        
+    private String online = "";
+
+    public void updateOnline(String online) {
+
         this.online = online;
-        
+
     }
-    
+
     @Override
     public void run() {
 
@@ -40,19 +40,23 @@ public class UDPSocket extends Thread {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 serverSocket.receive(receivePacket);
                 String sentence = new String(receivePacket.getData());
-                System.out.println("RECEIVED: " + sentence);
+                System.out.println("RECEIVED:" + sentence);
                 InetAddress IPAddress = receivePacket.getAddress();
-                if(sentence.equals("whoisonline")){
-                }
                 int port = receivePacket.getPort();
-                //String capitalizedSentence = sentence.toUpperCase();
-                String number = "42";
+                System.out.println(sentence.equalsIgnoreCase("whoisonline"));//THIS IS STRANGE
+//                if (sentence.equals("whoisonline")) {
+//                    sendData = online.getBytes();
+//                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+//                    serverSocket.send(sendPacket);
+//                }
+                //THIS SHOULD BE INSIDE THE IF. BUT CURRENTLY THE IF RETURNS FALSE??
                 sendData = online.getBytes();
-                DatagramPacket sendPacket
-                        = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
                 serverSocket.send(sendPacket);
-                    System.out.println("end123");
+                //END
                 
+                
+
             }
 
         } catch (SocketException ex) {
