@@ -1,0 +1,34 @@
+feb. 16, 2015 8:57:22 PM echoserver.EchoServer runServer
+INFO: Sever started. Listening on: 9090, bound to: localhost
+feb. 16, 2015 8:57:35 PM echoserver.EchoServer runServer
+INFO: Connected to a client
+feb. 16, 2015 8:57:50 PM echoserver.EchoServer runServer
+INFO: Connected to a client
+feb. 16, 2015 8:58:02 PM echoserver.ClientHandler run
+INFO: Received the message: SEND#*#HI ALL 
+feb. 16, 2015 8:59:30 PM echoserver.ClientHandler run
+INFO: Received the message: #CLOSE 
+feb. 16, 2015 8:59:46 PM echoserver.ClientHandler run
+INFO: Received the message: CLOSE# 
+feb. 16, 2015 8:59:46 PM echoserver.ClientHandler run
+SEVERE: null
+java.lang.IllegalStateException: Scanner closed
+	at java.util.Scanner.ensureOpen(Scanner.java:1070)
+	at java.util.Scanner.findWithinHorizon(Scanner.java:1670)
+	at java.util.Scanner.nextLine(Scanner.java:1538)
+	at echoserver.ClientHandler.run(ClientHandler.java:71)
+
+feb. 16, 2015 8:59:46 PM echoserver.ClientHandler run
+INFO: Closed a Connection
+feb. 16, 2015 9:03:16 PM echoserver.ClientHandler run
+INFO: Received the message: CLOSE# 
+feb. 16, 2015 9:03:16 PM echoserver.ClientHandler run
+SEVERE: null
+java.lang.IllegalStateException: Scanner closed
+	at java.util.Scanner.ensureOpen(Scanner.java:1070)
+	at java.util.Scanner.findWithinHorizon(Scanner.java:1670)
+	at java.util.Scanner.nextLine(Scanner.java:1538)
+	at echoserver.ClientHandler.run(ClientHandler.java:71)
+
+feb. 16, 2015 9:03:16 PM echoserver.ClientHandler run
+INFO: Closed a Connection
