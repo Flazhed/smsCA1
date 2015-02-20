@@ -44,8 +44,14 @@ public class OnlineUsersHandler implements HttpHandler {
 
         sb.append("<ol>");
 
-        for (String users : onlineUsers()) {
-            sb.append("<li>").append(users).append("</li>");
+        ArrayList<String> temp = onlineUsers();
+        System.out.println("size " + temp.size());
+        if (!temp.isEmpty()) {
+            for (String users : temp) {
+                sb.append("<li>").append(users).append("</li>");
+            }
+        } else {
+            sb.append("0 users Online");
         }
 
         sb.append("</ol>");
@@ -85,16 +91,22 @@ public class OnlineUsersHandler implements HttpHandler {
         } catch (SocketException ex) {
             Logger.getLogger(OnlineUsersHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        System.out.println("0");
         String[] removeIndex = result.split("#");
+        System.out.println("1");
+        System.out.println(removeIndex.length);
+        if (removeIndex.length >= 2) {
+            String[] users = removeIndex[1].split(",");
 
-        String[] users = removeIndex[1].split(",");
-
-        for (String user : users) {
-            System.out.println(user);
-            au.add(user);
+            for (String user : users) {
+                System.out.println(user);
+                au.add(user);
+            }
         }
+//        String[] users = removeIndex[1].split(",");
+        System.out.println("2");
 
+//        System.out.println("3");
         return au;
         //return Integer.parseInt(result);
 //        return result;
