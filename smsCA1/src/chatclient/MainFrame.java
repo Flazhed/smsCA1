@@ -78,14 +78,14 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Connection"));
 
-        jTextFieldIP.setText("localhost");
+        jTextFieldIP.setText("schultz.cloudapp.net");
         jTextFieldIP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldIPActionPerformed(evt);
             }
         });
 
-        jTextFieldPort.setText("8999");
+        jTextFieldPort.setText("7777");
         jTextFieldPort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldPortActionPerformed(evt);
@@ -318,6 +318,8 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
 
             client.send(msg, temp);
         }
+        
+        jTextFieldInput.setText("");
 
 
     }//GEN-LAST:event_jButtonSendActionPerformed

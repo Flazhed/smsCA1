@@ -45,7 +45,7 @@ public class LogHandler implements HttpHandler {
         String temp = scan.nextLine();
         while (scan.hasNext()) {
 
-            if (temp.matches("^([A-z]{3}\\.).*")) {
+            if (temp.matches("^([A-z]{3}\\u0020).*")) {
                 sb.append("<tr>\n");
                 sb.append("<td>\n");
                 sb.append(temp + "\n");
