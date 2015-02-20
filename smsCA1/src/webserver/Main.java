@@ -5,6 +5,10 @@
  */
 package webserver;
 
+import chatserver.Server;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Stefan Duro <stefduro@gmail.com>
@@ -26,6 +30,8 @@ public class Main {
             port = Integer.parseInt(args[1]);
             contentFolder = args[2];
         }
+        
+        Logger.getLogger(Server.class.getName()).log(Level.INFO, "listen to " + ip + " " + port + " " + contentFolder);
         
         WebServer serv = new WebServer(ip, port, contentFolder);
     }

@@ -1,0 +1,1 @@
+java -cp smsCA1.jar webserver.Main 100.75.198.37 9090

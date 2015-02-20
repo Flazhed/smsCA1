@@ -80,7 +80,7 @@ public class Server {
         //MESSAGE#user#msg
         String message = type + from + msg;
 
-        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, "{0}{1}", new Object[]{message, modtager});
+        Logger.getLogger(Server.class.getName()).log(Level.INFO, "{0}{1}", new Object[]{message, modtager});
 
         for (String user : users) {
             if (modtager.equals("*")) {
@@ -170,8 +170,8 @@ public class Server {
     public static void main(String[] args) {
 
         //Hardcoded skal laves om.
-        String ip = "localhost";
-        int port = 8999;
+        String ip = properties.getProperty("serverIp");
+        int port = Integer.parseInt(properties.getProperty("port"));
 
         //setting up Log file
         String logFile = properties.getProperty("logFile");
