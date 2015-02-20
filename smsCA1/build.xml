@@ -15,6 +15,7 @@
       <copy file="server.properties" todir="${dist.dir}"/> 
       <copy file="startServer.bat" todir="${dist.dir}"/>
       <copy file="startClient.bat" todir="${dist.dir}"/> 
+      <copy file="startWebserver.bat" todir="${dist.dir}"/> 
     </target>
     
     <target name="-post-jar">

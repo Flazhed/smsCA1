@@ -5,6 +5,7 @@
  */
 package webserver;
 
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.File;
@@ -21,6 +22,8 @@ public class LogHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange he) throws IOException {
         String response; //String needed for the printwriter
+        
+        Headers h = he.getResponseHeaders();
 
         StringBuilder sb = new StringBuilder();
         sb.append("<!DOCTYPE html>\n");
@@ -71,6 +74,9 @@ public class LogHandler implements HttpHandler {
         sb.append("</tr>\n");
         sb.append("</body>\n");
         sb.append("</html>\n");
+        
+        h.add("Contents-Type", "text/html");
+        
         response = sb.toString();
         he.sendResponseHeaders(200, response.length());
         try (PrintWriter pw = new PrintWriter(he.getResponseBody())) {
