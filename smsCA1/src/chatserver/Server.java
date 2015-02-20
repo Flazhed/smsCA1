@@ -33,6 +33,7 @@ public class Server {
     private ServerSocket serverSocket;
     private HashMap<String, ClientHandler> clientMap;
     private UDPSocket udp;
+
     public Server(String ip, int port) {
 
         clientMap = new HashMap<>();
@@ -53,11 +54,15 @@ public class Server {
 
         String online = ProtocolStrings.ONLINE + ProtocolStrings.SEPERATOR;
 
+        String cleanedUsers = "";
+
         for (String client : clientMap.keySet()) {
             online += client + ",";
         }
+        if (clientMap.size() >= 1) {
+            cleanedUsers = online.substring(0, online.lastIndexOf(","));
+        }
 
-        String cleanedUsers = online.substring(0, online.lastIndexOf(","));
         udp.updateOnline(cleanedUsers);
         for (ClientHandler clientHandler : clientMap.values()) {
             clientHandler.send(cleanedUsers);
@@ -74,6 +79,8 @@ public class Server {
         String from = afsender + ProtocolStrings.SEPERATOR;
         //MESSAGE#user#msg
         String message = type + from + msg;
+
+        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, "{0}{1}", new Object[]{message, modtager});
 
         for (String user : users) {
             if (modtager.equals("*")) {
@@ -121,7 +128,7 @@ public class Server {
         PrintWriter output;
         Scanner input;
         Socket socket;
-        
+
         while (serverRunning) {
 
             try {
@@ -154,13 +161,10 @@ public class Server {
 
             } catch (IOException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                System.out.println("hi");
-                Utils.closeLogger(Server.class.getName());
             }
 
         }
-
+        Utils.closeLogger(Server.class.getName());
     }
 
     public static void main(String[] args) {
@@ -172,16 +176,11 @@ public class Server {
         //setting up Log file
         String logFile = properties.getProperty("logFile");
         Utils.setLogFile(logFile, Server.class.getName());
-        
+
         //Starts the server.
         Server server = new Server(ip, port);
         server.startServer();
-        
-        
-        
-        
-    }
 
-  
+    }
 
 }

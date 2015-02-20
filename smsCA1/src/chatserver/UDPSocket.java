@@ -39,7 +39,7 @@ public class UDPSocket extends Thread {
             while (true) {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 serverSocket.receive(receivePacket);
-                String sentence = new String(receivePacket.getData());
+                String sentence = new String(receivePacket.getData(), receivePacket.getOffset(), receivePacket.getLength());
                 System.out.println("RECEIVED:" + sentence);
                 InetAddress IPAddress = receivePacket.getAddress();
                 int port = receivePacket.getPort();
@@ -54,8 +54,6 @@ public class UDPSocket extends Thread {
                 DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
                 serverSocket.send(sendPacket);
                 //END
-                
-                
 
             }
 

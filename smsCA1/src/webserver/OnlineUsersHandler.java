@@ -15,6 +15,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,8 +40,17 @@ public class OnlineUsersHandler implements HttpHandler {
         sb.append("</head>\n");
         sb.append("<body>\n");
 
-        sb.append("Users online:" + onlineUsers());
+        sb.append("<h1> Users online: </h1>");
 
+        sb.append("<ol>");
+
+        for (String users : onlineUsers()) {
+            sb.append("<li>").append(users).append("</li>");
+        }
+
+        sb.append("</ol>");
+
+//        sb.append("Users online:" + onlineUsers());
         sb.append("</body>\n");
         sb.append("</html>\n");
         response = sb.toString();
@@ -51,9 +61,11 @@ public class OnlineUsersHandler implements HttpHandler {
 
     }
 
-    private String onlineUsers() throws UnknownHostException, IOException {
+    private ArrayList<String> onlineUsers() throws UnknownHostException, IOException {
 
         String result = "";
+
+        ArrayList<String> au = new ArrayList<>();
 
         byte[] bytesToSend = new byte[1024];
         byte[] bytesToRecive = new byte[1024];
@@ -64,20 +76,28 @@ public class OnlineUsersHandler implements HttpHandler {
             String sentence = "whoisonline";
             bytesToSend = sentence.getBytes();
             DatagramPacket sendPacket = new DatagramPacket(bytesToSend, bytesToSend.length, IPAddress, 9999);
-
             socket.send(sendPacket);
 
             DatagramPacket receivePacket = new DatagramPacket(bytesToRecive, bytesToRecive.length);
 
             socket.receive(receivePacket);
-
             result = new String(receivePacket.getData());
         } catch (SocketException ex) {
             Logger.getLogger(OnlineUsersHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        String[] removeIndex = result.split("#");
+
+        String[] users = removeIndex[1].split(",");
+
+        for (String user : users) {
+            System.out.println(user);
+            au.add(user);
+        }
+
+        return au;
         //return Integer.parseInt(result);
-        return result;
+//        return result;
     }
 
 }
