@@ -26,6 +26,8 @@ import java.util.logging.Logger;
  */
 public class OnlineUsersHandler implements HttpHandler {
 
+
+
     @Override
     public void handle(HttpExchange he) throws IOException {
 
@@ -91,11 +93,10 @@ public class OnlineUsersHandler implements HttpHandler {
         } catch (SocketException ex) {
             Logger.getLogger(OnlineUsersHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println("0");
+
         String[] removeIndex = result.split("#");
-        System.out.println("1");
-        System.out.println(removeIndex.length);
-        if (removeIndex.length >= 2) {
+
+        if (removeIndex.length > 1) {
             String[] users = removeIndex[1].split(",");
 
             for (String user : users) {
@@ -103,13 +104,9 @@ public class OnlineUsersHandler implements HttpHandler {
                 au.add(user);
             }
         }
-//        String[] users = removeIndex[1].split(",");
-        System.out.println("2");
 
-//        System.out.println("3");
         return au;
-        //return Integer.parseInt(result);
-//        return result;
+
     }
 
 }

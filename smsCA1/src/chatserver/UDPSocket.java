@@ -43,16 +43,15 @@ public class UDPSocket extends Thread {
                 System.out.println("RECEIVED:" + sentence);
                 InetAddress IPAddress = receivePacket.getAddress();
                 int port = receivePacket.getPort();
-                System.out.println(sentence.equalsIgnoreCase("whoisonline"));//THIS IS STRANGE
-//                if (sentence.equals("whoisonline")) {
-//                    sendData = online.getBytes();
-//                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
-//                    serverSocket.send(sendPacket);
-//                }
+                if (sentence.equals("whoisonline")) {
+                    sendData = online.getBytes();
+                    DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+                    serverSocket.send(sendPacket);
+                }
                 //THIS SHOULD BE INSIDE THE IF. BUT CURRENTLY THE IF RETURNS FALSE??
-                sendData = online.getBytes();
-                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
-                serverSocket.send(sendPacket);
+//                sendData = online.getBytes();
+//                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+//                serverSocket.send(sendPacket);
                 //END
 
             }

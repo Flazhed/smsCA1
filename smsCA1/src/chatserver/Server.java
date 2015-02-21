@@ -7,13 +7,9 @@ package chatserver;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Scanner;
@@ -64,6 +60,7 @@ public class Server {
         }
 
         udp.updateOnline(cleanedUsers);
+
         for (ClientHandler clientHandler : clientMap.values()) {
             clientHandler.send(cleanedUsers);
         }
@@ -80,14 +77,13 @@ public class Server {
         //MESSAGE#user#msg
         String message = type + from + msg;
 
-        Logger.getLogger(Server.class.getName()).log(Level.INFO, "{0}{1}", new Object[]{message, modtager});
+        Logger.getLogger(Server.class.getName()).log(Level.INFO, "Message send: {0} to: {1}", new Object[]{message, modtager});
 
         for (String user : users) {
             if (modtager.equals("*")) {
                 send(message);
 
             } else {
-                System.out.println(user + "user");
                 ClientHandler clientHandler = clientMap.get(user);
                 if (clientHandler != null) {
                     clientHandler.send(message);
@@ -118,6 +114,7 @@ public class Server {
 
     public void removeHandler(String username) {
         clientMap.remove(username);
+        Logger.getLogger(Server.class.getName()).log(Level.INFO, "{0} removed from the server!", username);
         usersOnline();
     }
 
@@ -132,9 +129,10 @@ public class Server {
         while (serverRunning) {
 
             try {
+                String username = "";
                 //Blocking call, waits on clients to connect.
                 socket = serverSocket.accept();
-                Logger.getLogger(Server.class.getName()).log(Level.INFO, "Connected to a client");
+//                Logger.getLogger(Server.class.getName()).log(Level.INFO, "Connected to a client");
 
                 //Blocking call, waits for the connect protocol string and username.
                 input = new Scanner(socket.getInputStream());
@@ -145,16 +143,18 @@ public class Server {
 
                 String connectionAllowed = connectUser[0];
 
-                String username = connectUser[1];
+                if (connectUser.length > 1) {
+                    username = connectUser[1];
+                }
 
                 if (connectionAllowed.equalsIgnoreCase("connect")) {
                     ClientHandler clientHandler = new ClientHandler(username, socket, this);
                     clientMap.put(username, clientHandler);
                     clientHandler.start();
                     usersOnline();
+                    Logger.getLogger(Server.class.getName()).log(Level.INFO, "{0} - Connected!", username);
                 } else {
                     output = new PrintWriter(socket.getOutputStream());
-
                     output.println("Fik ikke " + ProtocolStrings.CONNECT);
                     socket.close();
                 }
@@ -169,7 +169,7 @@ public class Server {
 
     public static void main(String[] args) {
 
-        //Hardcoded skal laves om.
+        //Getting ip and port from properties 
         String ip = properties.getProperty("serverIp");
         int port = Integer.parseInt(properties.getProperty("port"));
 

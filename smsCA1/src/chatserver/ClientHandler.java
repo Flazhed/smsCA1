@@ -47,14 +47,12 @@ public class ClientHandler extends Thread {
 
         try {
             String message = input.nextLine(); //IMPORTANT blocking call
-            Logger.getLogger(Server.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", message));
+//            Logger.getLogger(Server.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", message));
             while (!message.equals(ProtocolStrings.STOP)) {
 
                 String[] protocols = message.split(ProtocolStrings.SEPERATOR);
 
                 String index = protocols[0];
-
-                System.out.println("view over array: "+Arrays.toString(protocols));
 
                 switch (index) {
                     case "SEND":
@@ -62,19 +60,22 @@ public class ClientHandler extends Thread {
                         break;
                     case "CLOSE":
                         server.closeUser(username);
-                        server.removeHandler(username);
+//                        server.removeHandler(username);
                         socket.close();
+                        input.close();
+                        output.close();
+                        break;
+
                 }
 
                 message = input.nextLine(); //IMPORTANT blocking call
 
-                Logger.getLogger(Server.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", message));
-
+//                Logger.getLogger(Server.class.getName()).log(Level.INFO, String.format("Received the message: %1$S ", message));
             }
             output.println(ProtocolStrings.STOP);//Echo the stop message back to the client for a nice closedown
 
 //            socket.close();
-            Logger.getLogger(Server.class.getName()).log(Level.INFO, "Closed a Connection");
+//            Logger.getLogger(Server.class.getName()).log(Level.INFO, "Closed a Connection");
         } catch (Exception ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
         } finally {

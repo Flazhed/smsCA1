@@ -78,20 +78,21 @@ public class MainFrame extends javax.swing.JFrame implements ClientObserver {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Connection"));
 
-        jTextFieldIP.setText("schultz.cloudapp.net");
+        jTextFieldIP.setText("localhost");
         jTextFieldIP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldIPActionPerformed(evt);
             }
         });
 
-        jTextFieldPort.setText("7777");
+        jTextFieldPort.setText("8999");
         jTextFieldPort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldPortActionPerformed(evt);
             }
         });
 
+        jTextFieldUsername.setText("test");
         jTextFieldUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldUsernameActionPerformed(evt);
